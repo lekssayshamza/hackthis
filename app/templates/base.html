@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}hackthis{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">hackthis<span>.</span></a>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/sql/">Challenges</a>
+
+            <span id="auth-nav">
+                <a href="/auth/login">Login</a>
+                <a href="/auth/register">Register</a>
+            </span>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>hackthis — Learn web security by exploiting vulnerabilities.</p>
+    </footer>
+
+    <script>
+    async function updateNavigation() {
+        const authNav = document.getElementById("auth-nav");
+
+        try {
+            const response = await fetch("/auth/me");
+
+            if (response.ok) {
+                const user = await response.json();
+
+                authNav.innerHTML = `
+                    <a href="/progress/me">My Progress</a>
+                    <span>${user.username}</span>
+                    <a href="#" id="logout-link">Logout</a>
+                `;
+
+                document.getElementById("logout-link").addEventListener(
+                    "click",
+                    async (event) => {
+                        event.preventDefault();
+
+                        await fetch("/auth/logout", {
+                            method: "POST"
+                        });
+
+                        window.location.href = "/";
+                    }
+                );
+            }
+        } catch (error) {
+            console.error("Could not check authentication status:", error);
+        }
+    }
+
+    updateNavigation();
+    </script>
+
+</body>
+</html>

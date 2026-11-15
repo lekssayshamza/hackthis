@@ -1,0 +1,1 @@
+FLAG = "hackthis{sql_auth_bypass}"

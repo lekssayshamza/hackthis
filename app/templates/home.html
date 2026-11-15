@@ -1,0 +1,39 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home - hackthis{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Learn security by breaking things.</h1>
+
+    <p>
+        Explore intentionally vulnerable web applications,
+        discover security weaknesses, and develop practical
+        penetration testing skills.
+    </p>
+</section>
+
+<section>
+    <h2 class="section-title">Challenge Categories</h2>
+
+    <div class="challenge-grid">
+        {% for category in categories %}
+            <a href="/sql/" class="card">
+                <h2>{{ category.name }}</h2>
+
+                <p>
+                    {{ category.description or
+                       "Explore practical security challenges." }}
+                </p>
+
+                <span>Explore challenges →</span>
+            </a>
+        {% else %}
+            <p>No categories available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - hackthis{% endblock %}
+
+{% block content %}
+
+<section>
+    <h1>{{ category.name }}</h1>
+
+    <p>{{ category.description or "Practice SQL Injection techniques." }}</p>
+
+    <div class="challenge-grid">
+        {% for challenge in challenges %}
+            <a href="/sql/{{ challenge.slug }}" class="card">
+                <h2>{{ challenge.title }}</h2>
+
+                <p>{{ challenge.description }}</p>
+
+                <span class="difficulty">
+                    {{ challenge.difficulty }}
+                </span>
+
+                <p>{{ challenge.points }} points</p>
+            </a>
+        {% else %}
+            <p>No challenges available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
